@@ -29,8 +29,6 @@ export function Navbar({ onOpenFeedback }: NavbarProps) {
     { href: "/", label: "Beranda", icon: Terminal },
     { href: "/fitur", label: "Fitur Bot", icon: Sparkles },
     { href: "/sewa", label: "Jasa Sewa", icon: ShoppingBag, highlight: true },
-    { href: "/#commands", label: "Katalog Command", icon: Shield },
-    { href: "/admin", label: "Admin", icon: Lock },
   ];
 
   return (

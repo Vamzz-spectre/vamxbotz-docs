@@ -104,3 +104,28 @@ CREATE POLICY "Allow public all bot_rentals"
   TO anon, authenticated
   USING (true)
   WITH CHECK (true);
+
+-- 5. Tabel Bot Slides (Preview Showcase Management)
+CREATE TABLE IF NOT EXISTS bot_slides (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  badge TEXT NOT NULL,
+  badge_color TEXT DEFAULT 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  title TEXT NOT NULL,
+  subtitle TEXT NOT NULL,
+  tag TEXT NOT NULL,
+  type TEXT NOT NULL DEFAULT 'chat-mockup', -- 'image-hero' | 'chat-mockup'
+  image_src TEXT,
+  chat_data JSONB,
+  sort_order INT DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE bot_slides ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public all bot_slides"
+  ON bot_slides FOR ALL
+  TO anon, authenticated
+  USING (true)
+  WITH CHECK (true);

@@ -16,6 +16,7 @@ import {
   Share2,
 } from "lucide-react";
 import { botInfo } from "@/data/bot-info";
+import { createClient } from "@/lib/supabase/client";
 
 interface SlideItem {
   id: string;
@@ -37,7 +38,7 @@ interface SlideItem {
   };
 }
 
-const slides: SlideItem[] = [
+const defaultSlides: SlideItem[] = [
   {
     id: "hero-profile",
     badge: "Official Avatar & Profile",
@@ -177,10 +178,44 @@ const slides: SlideItem[] = [
 ];
 
 export function BotImageStack() {
+  const [slides, setSlides] = useState<SlideItem[]>(defaultSlides);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+
+  // Fetch dynamic slides from Supabase if available
+  useEffect(() => {
+    async function fetchDynamicSlides() {
+      try {
+        const supabase = createClient();
+        if (!supabase) return;
+        const { data, error } = await supabase
+          .from("bot_slides")
+          .select("*")
+          .eq("is_active", true)
+          .order("sort_order", { ascending: true });
+
+        if (data && data.length > 0 && !error) {
+          const mapped: SlideItem[] = data.map((d) => ({
+            id: d.id,
+            badge: d.badge,
+            badgeColor: d.badge_color || "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+            title: d.title,
+            subtitle: d.subtitle,
+            tag: d.tag,
+            type: d.type as "image-hero" | "chat-mockup",
+            imageSrc: d.image_src || (d.type === "image-hero" ? "/images/bot-avatar.jpg" : undefined),
+            chatData: d.chat_data || undefined,
+          }));
+          setSlides(mapped);
+        }
+      } catch {
+        // Fallback to defaultSlides
+      }
+    }
+    fetchDynamicSlides();
+  }, []);
 
   // Auto-play interval
   useEffect(() => {

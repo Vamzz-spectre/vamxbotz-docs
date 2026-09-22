@@ -75,10 +75,10 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-emerald-400 transition-colors flex items-center gap-1">
-                  <Lock className="h-3 w-3 text-zinc-500" />
-                  Panel Admin & Monitoring
-                </Link>
+                <a href="/api/status" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  <ExternalLink className="h-3 w-3 text-zinc-500" />
+                  REST API Status Bot
+                </a>
               </li>
             </ul>
           </div>
