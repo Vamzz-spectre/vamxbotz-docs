@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { botInfo } from "@/data/bot-info";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { Activity, Users, Shield, Zap, RefreshCw } from "lucide-react";
 
 interface StatusData {
@@ -89,7 +90,7 @@ export function BotStatusWidget() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1 */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4">
+        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 hover:border-zinc-700 transition-colors">
           <div className="flex items-center justify-between text-zinc-400 mb-2">
             <span className="text-xs font-medium uppercase tracking-wider">Mode Bot</span>
             <Shield className="h-4 w-4 text-emerald-400" />
@@ -99,32 +100,38 @@ export function BotStatusWidget() {
         </div>
 
         {/* Metric 2 */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4">
+        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 hover:border-zinc-700 transition-colors">
           <div className="flex items-center justify-between text-zinc-400 mb-2">
             <span className="text-xs font-medium uppercase tracking-wider">Grup Aktif</span>
             <Users className="h-4 w-4 text-cyan-400" />
           </div>
-          <div className="text-2xl font-bold text-zinc-100">{status.total_groups.toLocaleString()}</div>
+          <div className="text-2xl font-bold text-zinc-100">
+            <AnimatedCounter value={status.total_groups} suffix="+" />
+          </div>
           <p className="text-[11px] text-zinc-500 mt-1">Grup WhatsApp terdaftar</p>
         </div>
 
         {/* Metric 3 */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4">
+        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 hover:border-zinc-700 transition-colors">
           <div className="flex items-center justify-between text-zinc-400 mb-2">
             <span className="text-xs font-medium uppercase tracking-wider">Total User</span>
             <Users className="h-4 w-4 text-indigo-400" />
           </div>
-          <div className="text-2xl font-bold text-zinc-100">{status.total_users.toLocaleString()}</div>
+          <div className="text-2xl font-bold text-zinc-100">
+            <AnimatedCounter value={status.total_users} suffix="+" />
+          </div>
           <p className="text-[11px] text-zinc-500 mt-1">Pengguna aktif terdata</p>
         </div>
 
         {/* Metric 4 */}
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4">
+        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-4 hover:border-zinc-700 transition-colors">
           <div className="flex items-center justify-between text-zinc-400 mb-2">
             <span className="text-xs font-medium uppercase tracking-wider">Total Hit Command</span>
             <Zap className="h-4 w-4 text-amber-400" />
           </div>
-          <div className="text-2xl font-bold text-zinc-100">{status.total_hits.toLocaleString()}</div>
+          <div className="text-2xl font-bold text-zinc-100">
+            <AnimatedCounter value={status.total_hits} suffix="+" />
+          </div>
           <p className="text-[11px] text-zinc-500 mt-1">
             {isSupabaseConnected ? "Live via Supabase DB" : "Default Mode"}
           </p>

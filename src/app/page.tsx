@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { QuickStart } from "@/components/QuickStart";
 import { BotStatusWidget } from "@/components/BotStatusWidget";
+import { BotImageStack } from "@/components/BotImageStack";
 import { CommandCard } from "@/components/CommandCard";
 import { SupabaseGuide } from "@/components/SupabaseGuide";
 import { FeedbackModal } from "@/components/FeedbackModal";
@@ -21,6 +23,9 @@ import {
   Sparkles,
   BookOpen,
   Filter,
+  ShoppingBag,
+  ArrowRight,
+  Lock,
 } from "lucide-react";
 
 export default function Home() {
@@ -61,7 +66,7 @@ export default function Home() {
       <Navbar onOpenFeedback={() => setIsFeedbackOpen(true)} />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 border-b border-zinc-900 bg-radial-[at_50%_0%] from-emerald-950/30 via-zinc-950 to-zinc-950">
+      <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 border-b border-zinc-900 bg-radial-[at_50%_0%] from-emerald-950/35 via-zinc-950 to-zinc-950">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 mb-6 animate-pulse">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -76,9 +81,36 @@ export default function Home() {
           </h1>
 
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-zinc-400 mb-8 leading-relaxed">
-            {botInfo.description} Jelajahi daftar perintah, petunjuk konfigurasi, panduan sewa bot, serta integrasi
-            database Supabase.
+            {botInfo.description} Jelajahi daftar perintah, modul fitur interaktif, simulasi tampilan WhatsApp,
+            serta paket jasa sewa bot murah.
           </p>
+
+          {/* Quick Action Navigation CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+            <Link
+              href="/sewa"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-400 text-zinc-950 hover:bg-emerald-300 shadow-lg shadow-emerald-500/20 active:scale-95 transition-all"
+            >
+              <ShoppingBag className="h-4 w-4" />
+              <span>Jasa Sewa Bot (Mulai Rp 15rb)</span>
+            </Link>
+
+            <Link
+              href="/fitur"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-zinc-900 text-zinc-200 hover:text-white border border-zinc-800 hover:border-emerald-500/40 transition-all"
+            >
+              <Sparkles className="h-4 w-4 text-emerald-400" />
+              <span>Detail Fitur Bot</span>
+            </Link>
+
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 border border-zinc-800 transition-all"
+            >
+              <Lock className="h-3.5 w-3.5" />
+              <span>Panel Admin</span>
+            </Link>
+          </div>
 
           {/* Quick Search Bar */}
           <div className="mx-auto max-w-2xl relative">
@@ -109,11 +141,14 @@ export default function Home() {
 
       {/* Main Content Area */}
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full">
+        {/* Live Bot & Server Status with Animated Counter */}
+        <BotStatusWidget />
+
+        {/* 3D Stacked Card Slide Bot Showcase */}
+        <BotImageStack />
+
         {/* QuickStart Guide */}
         <QuickStart />
-
-        {/* Live Bot & Server Status */}
-        <BotStatusWidget />
 
         {/* Commands Explorer Section */}
         <section id="commands" className="mb-16 scroll-mt-20">
@@ -184,6 +219,31 @@ export default function Home() {
             </div>
           )}
         </section>
+
+        {/* Promo Sewa Banner */}
+        <div className="mb-16 rounded-3xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/40 via-zinc-900 to-zinc-950 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+          <div className="space-y-2 text-center md:text-left">
+            <span className="text-[11px] font-mono uppercase px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold inline-block">
+              Sewa Bot WhatsApp
+            </span>
+            <h3 className="text-xl sm:text-2xl font-bold text-white">
+              Ingin Bot Masuk ke Grup WhatsApp Anda?
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 max-w-xl">
+              Dapatkan paket sewa mulai dari Rp 15.000 / bulan dengan fitur anti-link 24 jam, push
+              kontak bisnis, dan downloader tanpa limit.
+            </p>
+          </div>
+
+          <Link
+            href="/sewa"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold bg-emerald-400 text-zinc-950 hover:bg-emerald-300 shadow-md shadow-emerald-500/20 active:scale-95 transition-all"
+          >
+            <ShoppingBag className="h-4 w-4" />
+            <span>Pilih Paket Sewa</span>
+            <ArrowRight className="h-3.5 w-3.5 ml-0.5" />
+          </Link>
+        </div>
 
         {/* Supabase Guide Section */}
         <SupabaseGuide />

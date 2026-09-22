@@ -56,10 +56,24 @@ CREATE POLICY "Allow public read bot_status"
   TO anon, authenticated
   USING (true);
 
+-- Allow public update bot_status (for Admin Dashboard)
+CREATE POLICY "Allow public update bot_status"
+  ON bot_status FOR UPDATE
+  TO anon, authenticated
+  USING (true)
+  WITH CHECK (true);
+
 -- Allow public insert feedback
 CREATE POLICY "Allow public insert bot_feedback"
   ON bot_feedback FOR INSERT
   TO anon, authenticated
+  WITH CHECK (true);
+
+-- Allow public read & update feedback (for Admin Dashboard)
+CREATE POLICY "Allow public update bot_feedback"
+  ON bot_feedback FOR UPDATE
+  TO anon, authenticated
+  USING (true)
   WITH CHECK (true);
 
 -- Allow public read aggregate command_logs
@@ -67,3 +81,26 @@ CREATE POLICY "Allow public read command_logs"
   ON command_logs FOR SELECT
   TO anon, authenticated
   USING (true);
+
+-- 4. Tabel Jasa Sewa Bot (Rental Management)
+CREATE TABLE IF NOT EXISTS bot_rentals (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_name TEXT NOT NULL,
+  phone_number TEXT NOT NULL,
+  group_name TEXT NOT NULL,
+  package_type TEXT NOT NULL DEFAULT 'Standar', -- Standar, Pro, VIP
+  price INT NOT NULL DEFAULT 15000,
+  start_date DATE DEFAULT CURRENT_DATE,
+  end_date DATE NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active', -- active, expired, pending
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE bot_rentals ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public all bot_rentals"
+  ON bot_rentals FOR ALL
+  TO anon, authenticated
+  USING (true)
+  WITH CHECK (true);
